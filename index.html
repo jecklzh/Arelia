@@ -1,58 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的主页</title>
-    <style>
-        /* CSS 样式部分 - 负责美化页面 */
-
-        /* 确保页面和视频容器没有多余的边距和内边距 */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; /* 隐藏滚动条，让背景更纯粹 */
-            background-color: #000; /* 设置一个黑色背景，防止视频加载时出现白屏闪烁 */
-        }
-
-        /* 视频背景的核心样式 */
-        .video-background {
-            position: fixed; /* 将视频固定在屏幕上，不随内容滚动 */
-            right: 0;
-            bottom: 0;
-            min-width: 100%;  /* 保证视频宽度至少与屏幕一样宽 */
-            min-height: 100%; /* 保证视频高度至少与屏幕一样高 */
-            width: auto;
-            height: auto;
-            z-index: -1; /* 将视频置于最底层，作为背景 */
-            object-fit: cover; /* 保证视频在铺满屏幕的同时保持其宽高比，多余部分会被裁切 */
-        }
-
-        /* 可选：如果你想在视频上加点文字，可以用这个样式 */
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-            font-size: 2rem;
-            font-family: sans-serif;
-            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7); /* 给文字加一点阴影，使其在复杂背景下更易读 */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Test</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
-
-    <video autoplay loop muted playsinline class="video-background">
-        <source src="1.mp4" type="video/mp4">
-        
-        您的浏览器不支持视频播放。
-    </video>
-
-    <div class="content">
-        </div>
-
+  <video src="1.mp4?v=1" autoplay muted loop controls playsinline></video>
 </body>
 </html>
