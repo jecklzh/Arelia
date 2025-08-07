@@ -1,25 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video Test</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    video {
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arelia</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 3rem;
+            font-family: sans-serif;
+            text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
 <body>
-  <video src="1.mp4?v=1" autoplay muted loop controls playsinline></video>
+
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="1.mp4" type="video/mp4">
+        您的浏览器不支持视频播放。
+    </video>
+
+    <div class="content">
+        <h1>Arelia</h1>
+    </div>
+
 </body>
 </html>
