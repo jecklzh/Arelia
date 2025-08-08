@@ -77,8 +77,8 @@
 <body>
 
     <div class="video-container">
-        <video id="idle-video" src="1.mp4" autoplay loop muted playsinline></video>
-        <video id="greet-video" src="1.mp4" muted playsinline style="display: none;"></video>
+        <video id="idle-video" src="idle.mp4" autoplay loop muted playsinline></video>
+        <video id="greet-video" src="greeting.mp4" muted playsinline style="display: none;"></video>
     </div>
 
     <div class="content-container">
@@ -88,25 +88,23 @@
     <button id="greet-button">打个招呼</button>
 
     <script>
-        // JavaScript 逻辑部分
+        // JavaScript 逻辑部分 (无需更改)
         const idleVideo = document.getElementById('idle-video');
         const greetVideo = document.getElementById('greet-video');
         const greetButton = document.getElementById('greet-button');
 
-        // 当点击按钮时触发
         greetButton.addEventListener('click', () => {
-            idleVideo.style.display = 'none'; // 隐藏待机视频
-            greetVideo.style.display = 'block'; // 显示问候视频
-            greetVideo.play(); // 播放问候视频
+            idleVideo.style.display = 'none';
+            greetVideo.style.display = 'block';
+            greetVideo.play();
         });
 
-        // 当问候视频播放结束时触发
         greetVideo.addEventListener('ended', () => {
-            greetVideo.style.display = 'none'; // 隐藏问候视频
-            idleVideo.style.display = 'block'; // 显示待机视频
-            // idleVideo.play(); // 因为待机视频是循环的，所以它其实一直在后台播放，显示出来即可
+            greetVideo.style.display = 'none';
+            idleVideo.style.display = 'block';
         });
     </script>
 
 </body>
 </html>
+
