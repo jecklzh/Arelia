@@ -5,108 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
     <style>
-        /* 重置页面默认边距 */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-        }
+        /* CSS样式与之前基本一致，但为视频增加了过渡效果 */
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: #000; }
+        
+        /* 关键：我们现在只用一个video元素，通过JS来切换它的视频源 */
+        #video-player { width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.7s ease-in-out; }
+        
+        .content-container { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .title { color: white; font-size: 3rem; font-family: sans-serif; mix-blend-mode: overlay; opacity: 0.42; }
 
-        /* 视频容器 */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background-color: #000;
-        }
-
-        /* 容器内的视频元素 */
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 1;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        /* 前景内容容器 */
-        .content-container {
-            position: relative;
-            z-index: 1; /* 内容层级为1 */
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 文字样式 */
-        .title {
-            color: white;
-            font-size: 3rem;
-            font-family: sans-serif;
-            text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
-            mix-blend-mode: overlay;
-            opacity: 0.42;
-        }
-
-        /* 交互按钮的样式 */
-        #greet-button {
-            position: fixed;
-            bottom: 40px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid white;
-            border-radius: 5px;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-            z-index: 2; /* 将按钮层级提升到2，确保在最上层 */
-        }
-        #greet-button:hover {
-            opacity: 1;
-        }
+        /* 交互按钮区域的样式 */
+        .interaction-zone { position: fixed; bottom: 40px; z-index: 2; display: flex; gap: 10px; }
+        .interaction-zone button { padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; border-radius: 5px; opacity: 0.5; transition: all 0.3s; }
+        .interaction-zone button:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.4); }
     </style>
 </head>
 <body>
 
     <div class="video-container">
-        <video id="idle-video" src="idle.mp4" autoplay loop muted playsinline></video>
-        <video id="greet-video" src="greeting.mp4" muted playsinline style="display: none;"></video>
+        <video id="video-player" muted playsinline></video>
     </div>
 
     <div class="content-container">
         <h1 class="title">Arelia</h1>
     </div>
-
-    <button id="greet-button">打个招呼</button>
+    
+    <div class="interaction-zone">
+        <button id="chat-button">打开聊天</button>
+        </div>
 
     <script>
-        // JavaScript 逻辑部分 (无需更改)
-        const idleVideo = document.getElementById('idle-video');
-        const greetVideo = document.getElementById('greet-video');
-        const greetButton = document.getElementById('greet-button');
+        // --- JavaScript 导演 ---
 
-        greetButton.addEventListener('click', () => {
-            idleVideo.style.display = 'none';
-            greetVideo.style.display = 'block';
-            greetVideo.play();
+        const videoPlayer = document.getElementById('video-player');
+        const chatButton = document.getElementById('chat-button');
+
+        // --- 1. 我们的视频库 (请在这里添加您未来的视频文件名) ---
+        const videoLibrary = {
+            greeting: [
+                'videos/greeting_smile.mp4',
+                'videos/greeting_nod.mp4' 
+            ],
+            idle: [
+                'videos/idle_gaze_shift.mp4',
+                'videos/idle_breathing.mp4',
+                'videos/idle_hair_sway.mp4'
+            ],
+            listening: [
+                'videos/listening_attentive.mp4',
+                'videos/listening_nodding.mp4'
+            ],
+            distracted: [
+                'videos/distracted_look_away.mp4'
+            ],
+            comforting: [ 'videos/comfort_reach_out.mp4' ],
+            playful: [ 'videos/playful_wink.mp4' ]
+        };
+
+        let currentState = 'idle'; // 记录Arelia当前的状态
+        let distractionTimer; // 用于“走神”的计时器
+
+        // --- 2. 核心播放函数 ---
+        function playRandomVideoFrom(category, loop = true) {
+            const videos = videoLibrary[category];
+            if (!videos || videos.length === 0) {
+                console.error(`视频库中找不到 "${category}" 类别的视频!`);
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * videos.length);
+            const videoSrc = videos[randomIndex];
+            
+            videoPlayer.src = videoSrc;
+            videoPlayer.loop = loop;
+            videoPlayer.play();
+            currentState = category;
+        }
+
+        // --- 3. 状态切换逻辑 ---
+        
+        // 当一个视频播放结束时，决定下一个动作
+        videoPlayer.addEventListener('ended', () => {
+            // 如果是问候视频结束了，就进入待机状态
+            if (currentState === 'greeting') {
+                playRandomVideoFrom('idle');
+            }
+            // 如果是走神视频结束了，就回到倾听状态
+            else if (currentState === 'distracted') {
+                startListening();
+            }
+            // 其他一次性视频（如安慰、俏皮）结束后，都可以设计回到待机状态
+            else if (currentState === 'comforting' || currentState === 'playful') {
+                 playRandomVideoFrom('idle');
+            }
         });
 
-        greetVideo.addEventListener('ended', () => {
-            greetVideo.style.display = 'none';
-            idleVideo.style.display = 'block';
+        // "打开聊天"按钮的逻辑
+        function startListening() {
+            currentState = 'listening';
+            playRandomVideoFrom('listening');
+            
+            // 设置一个随机的“走神”计时器 (10-20秒之间)
+            clearTimeout(distractionTimer);
+            distractionTimer = setTimeout(() => {
+                // 有30%的概率会走神
+                if (Math.random() < 0.3) {
+                    playRandomVideoFrom('distracted', false); // 走神视频只播放一次
+                }
+            }, 10000 + Math.random() * 10000);
+        }
+
+        chatButton.addEventListener('click', startListening);
+
+        // --- 4. 网页启动时的初始动作 ---
+        // 页面加载完成后，先播放一个问候视频，只播放一次
+        window.addEventListener('DOMContentLoaded', () => {
+            playRandomVideoFrom('greeting', false);
         });
+
     </script>
 
 </body>
 </html>
-
-
