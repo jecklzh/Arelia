@@ -4,46 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
-    <style>
-        /* CSS 样式已全面更新 */
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: sans-serif; }
-        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: #000; }
-        #video-player { width: 100%; height: 100%; object-fit: cover; }
-
-        .overlay-content { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; /* 让鼠标可以穿透此层 */ }
-        .title { color: white; font-size: 3rem; text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8); mix-blend-mode: overlay; opacity: 0.42; }
-
-        .interaction-zone { position: fixed; bottom: 40px; z-index: 2; display: flex; gap: 10px; pointer-events: auto; /* 恢复按钮区域的鼠标事件 */ }
-        .interaction-zone button { padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 5px; opacity: 0.6; transition: all 0.3s; }
-        .interaction-zone button:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.4); }
-
-        /* --- 新增的聊天窗口样式 --- */
-        #chat-window {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 500px;
-            height: 60%;
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            z-index: 10;
-            display: none; /* 初始隐藏 */
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            pointer-events: auto;
-        }
-        #chat-messages { flex-grow: 1; color: white; overflow-y: auto; margin-bottom: 10px; }
-        #chat-input { width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background: transparent; color: white; border-radius: 5px; box-sizing: border-box; }
-        #close-chat-button { position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; opacity: 0.7; }
-        #close-chat-button:hover { opacity: 1; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -54,7 +15,7 @@
     <div class="overlay-content">
         <h1 class="title">Arelia</h1>
     </div>
-
+    
     <div class="interaction-zone">
         <button id="hello-button">Hello Arelia</button>
         <button id="chat-button">打开聊天</button>
@@ -68,72 +29,6 @@
         <input id="chat-input" type="text" placeholder="在这里输入...">
     </div>
 
-    <script>
-        const videoPlayer = document.getElementById('video-player');
-        const helloButton = document.getElementById('hello-button');
-        const chatButton = document.getElementById('chat-button');
-        const chatWindow = document.getElementById('chat-window');
-        const closeChatButton = document.getElementById('close-chat-button');
-
-        const videoLibrary = {
-            hello: ['greeting.mp4'],
-            idle: ['idle.mp4', 'idle2.mp4'], // 假设您有两个待机视频
-            listening: ['listening.mp4'],
-            // ... 未来可以添加更多类别
-        };
-
-        let currentState = 'idle';
-        let isChatOpen = false;
-
-        function playRandomVideoFrom(category, loop = true) {
-            const videos = videoLibrary[category];
-            if (!videos || videos.length === 0) return;
-            
-            const videoSrc = videos[Math.floor(Math.random() * videos.length)];
-            
-            if (videoPlayer.src.endsWith(videoSrc)) {
-                // 如果随机到的视频和当前是同一个，则重新播放以避免停顿
-                videoPlayer.currentTime = 0;
-                videoPlayer.play();
-            } else {
-                videoPlayer.src = videoSrc;
-            }
-            videoPlayer.loop = loop;
-            currentState = category;
-        }
-
-        // --- 事件监听器 ---
-        videoPlayer.addEventListener('ended', () => {
-            if (currentState === 'hello' || (currentState === 'listening' && !isChatOpen)) {
-                playRandomVideoFrom('idle');
-            }
-        });
-        
-        // --- 按钮逻辑 ---
-        helloButton.addEventListener('click', () => {
-             // 无论当前在做什么，都可以打招呼
-            playRandomVideoFrom('hello', false);
-        });
-
-        chatButton.addEventListener('click', () => {
-            isChatOpen = true;
-            chatWindow.style.display = 'flex';
-            setTimeout(() => { chatWindow.style.opacity = '1'; }, 10); // 延迟一点以触发过渡动画
-            playRandomVideoFrom('listening');
-        });
-
-        closeChatButton.addEventListener('click', () => {
-            isChatOpen = false;
-            chatWindow.style.opacity = '0';
-            setTimeout(() => { chatWindow.style.display = 'none'; }, 500); // 等待动画结束后再隐藏
-            // 倾听视频播放完后，'ended'事件会自动将状态切换回待机
-        });
-
-        // --- 初始启动 ---
-        window.addEventListener('DOMContentLoaded', () => {
-            playRandomVideoFrom('idle'); // 页面加载后直接进入待机状态
-        });
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
