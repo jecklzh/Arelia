@@ -8,10 +8,9 @@ const closeChatButton = document.getElementById('close-chat-button');
 const videoLibrary = {
     hello: ['videos/greeting.mp4'],
     idle: [
-      'videos/idle.mp4', 
-      'videos/idle2.mp4'
+      'videos/idle.mp4'
     ],
-    listening: ['videos/listening.mp4'],
+    listening: ['videos/1.mp4'],
 };
 
 let currentState = 'idle';
