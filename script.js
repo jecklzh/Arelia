@@ -1,4 +1,3 @@
-// script.js (FIXED VERSION)
 const videoPlayer = document.getElementById('video-player');
 const helloButton = document.getElementById('hello-button');
 const chatButton = document.getElementById('chat-button');
@@ -16,23 +15,18 @@ let isChatOpen = false;
 
 function playRandomVideoFrom(category, loop = true) {
     const videos = videoLibrary[category];
-    if (!videos || videos.length === 0) {
-        console.error(`Video category "${category}" not found or is empty.`);
-        return;
-    }
+    if (!videos || videos.length === 0) return;
     const videoSrc = videos[Math.floor(Math.random() * videos.length)];
-
-    // 核心修正：总是先设置视频源，然后立即调用play()
-    videoPlayer.src = videoSrc;
-    videoPlayer.play().catch(error => {
-        // 捕获并打印可能的播放错误，比如浏览器策略阻止自动播放
-        console.error("Video play failed:", error);
-    });
-
+    if (videoPlayer.src.endsWith(videoSrc) && videoPlayer.loop === loop) {
+        videoPlayer.currentTime = 0;
+        videoPlayer.play();
+    } else {
+        videoPlayer.src = videoSrc;
+        videoPlayer.play();
+    }
     videoPlayer.loop = loop;
     currentState = category;
 }
-
 
 videoPlayer.addEventListener('ended', () => {
     if (currentState === 'hello' || (currentState === 'listening' && !isChatOpen)) {
@@ -46,6 +40,7 @@ helloButton.addEventListener('click', () => {
 
 chatButton.addEventListener('click', () => {
     isChatOpen = true;
+    videoPlayer.style.objectPosition = '80% 50%'; // 视觉修正：视频焦点右移
     chatWindow.style.display = 'flex';
     setTimeout(() => { chatWindow.style.opacity = '1'; }, 10);
     playRandomVideoFrom('listening');
@@ -53,6 +48,8 @@ chatButton.addEventListener('click', () => {
 
 closeChatButton.addEventListener('click', () => {
     isChatOpen = false;
+    videoPlayer.loop = false; // 逻辑修正：告诉视频播完这次就结束
+    videoPlayer.style.objectPosition = '50% 50%'; // 视觉修正：视频焦点复位
     chatWindow.style.opacity = '0';
     setTimeout(() => { chatWindow.style.display = 'none'; }, 500);
 });
