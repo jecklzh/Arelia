@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
-    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="style.css?v=1.5">
+    <script
+        type="module"
+        src="https://gradio.s3-us-west-2.amazonaws.com/4.26.0/gradio.js"
+    ></script>
 </head>
 <body>
 
@@ -23,13 +27,9 @@
 
     <div id="chat-window">
         <button id="close-chat-button">&times;</button>
-        <div id="chat-messages">
-            <p style="color: #ccc;">Arelia: 你好，有什么想对我说的吗？</p>
-        </div>
-        <input id="chat-input" type="text" placeholder="在这里输入...">
+        <gradio-app src="https://steve678-arelia-chat.hf.space/"></gradio-app>
     </div>
 
-    <script src="script.js?v=1.1"></script>
+    <script src="script.js?v=1.2"></script>
 </body>
 </html>
-
