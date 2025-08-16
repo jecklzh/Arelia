@@ -12,8 +12,52 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
 .interaction-zone { position: fixed; bottom: 40px; z-index: 2; display: flex; gap: 10px; pointer-events: auto; }
 .interaction-zone button { padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 5px; opacity: 0.6; transition: all 0.3s; }
 .interaction-zone button:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.4); }
-#chat-window { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; height: 60%; background-color: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; backdrop-filter: blur(10px); z-index: 10; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; opacity: 0; transition: opacity 0.5s ease-in-out; pointer-events: auto; }
-#chat-messages { flex-grow: 1; color: white; overflow-y: auto; margin-bottom: 10px; }
-#chat-input { width: 100%; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.3); background: transparent; color: white; border-radius: 5px; box-sizing: border-box; }
-#close-chat-button { position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; opacity: 0.7; }
+#chat-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    height: 70%; /* Increased height slightly for better chat experience */
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: auto;
+}
+
+/* --- DELETED STYLES --- */
+/* We no longer need these as Gradio provides its own UI */
+/* #chat-messages { ... } */
+/* #chat-input { ... } */
+
+
+#close-chat-button {
+    position: absolute;
+    top: 10px;
+    right: 15px; /* Adjusted position slightly */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    z-index: 11; /* Ensure it's above the gradio app */
+}
 #close-chat-button:hover { opacity: 1; }
+
+/* --- NEW STYLE --- */
+/* Make the Gradio component fill the chat window container */
+gradio-app {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
