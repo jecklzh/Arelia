@@ -117,12 +117,7 @@ body, html {
     opacity: 0.6;
     z-index: 11;
     transition: opacity 0.3s, transform 0.3s;
-    
-    /* --- 核心修复：恢复按钮的美貌 --- */
-    padding: 0; /* 移除按钮的默认内边距 */
-    line-height: 1; /* 确保符号在自己的空间里垂直居中 */
-    font-family: Arial, sans-serif; /* 强制使用最通用的、能把"×"画好看的字体 */
-    font-weight: normal; /* 使用正常的字重，避免过粗 */
+
 }
 
 #close-chat-button:hover {
