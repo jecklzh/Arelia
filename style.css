@@ -1,29 +1,101 @@
-body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: sans-serif; }
-.video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: #000; }
+/* ================================== */
+/* Arelia Project - style.css v2.0    */
+/* ================================== */
+
+/* --- 基础与背景视频 --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #000;
+}
+
 #video-player {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 50%; /* 初始位置居中 */
-    transition: object-position 1s ease-in-out; /* 为焦点平移动画增加过渡效果 */
+    object-position: 50% 50%;
+    transition: object-position 1s ease-in-out;
 }
-.overlay-content { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; }
-.title { color: white; font-size: 3rem; text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8); mix-blend-mode: overlay; opacity: 0.42; }
-.interaction-zone { position: fixed; bottom: 40px; z-index: 2; display: flex; gap: 10px; pointer-events: auto; }
-.interaction-zone button { padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 5px; opacity: 0.6; transition: all 0.3s; }
-.interaction-zone button:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.4); }
+
+.overlay-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.title {
+    color: white;
+    font-size: 3rem;
+    text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+    mix-blend-mode: overlay;
+    opacity: 0.42;
+}
+
+/* --- 交互按钮 --- */
+.interaction-zone {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.interaction-zone button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.interaction-zone button:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* --- 聊天窗口 (全新美化) --- */
 #chat-window {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 90%;
     max-width: 500px;
-    height: 70%; /* Increased height slightly for better chat experience */
-    background-color: rgba(0, 0, 0, 0.6);
+    height: 75%;
+    background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
     z-index: 10;
     display: none;
     flex-direction: column;
@@ -32,60 +104,124 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     pointer-events: auto;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); /* 增加窗口阴影，提升层次感 */
 }
-
-/* --- DELETED STYLES --- */
-/* We no longer need these as Gradio provides its own UI */
-/* #chat-messages { ... } */
-/* #chat-input { ... } */
-
 
 #close-chat-button {
     position: absolute;
-    top: 10px;
-    right: 15px; /* Adjusted position slightly */
+    top: 15px;
+    right: 15px;
     background: none;
     border: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
-    opacity: 0.7;
-    z-index: 11; /* Ensure it's above the gradio app */
-}
-#close-chat-button:hover { opacity: 1; }
-
-/* --- NEW STYLE --- */
-/* Make the Gradio component fill the chat window container */
-gradio-app {
-    width: 100%;
-    height: 100%;
-    background: transparent;
+    opacity: 0.6;
+    z-index: 11;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
-/* --- 聊天窗口美化补丁 --- */
+#close-chat-button:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
 
-/* 1. 让聊天输入框的文字和占位符变成白色/浅灰色 */
+/* --- 消息显示区域 (全新美化) --- */
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 10px; /* 为美化后的滚动条留出空间 */
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 85%; /* 消息气泡不会过长 */
+    word-wrap: break-word; /* 文本自动换行 */
+    line-height: 1.5;
+}
+
+.user-message {
+    background-color: #0078d4;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px; /* 增加一点设计感 */
+}
+
+.arelia-message {
+    background-color: #3a3a3b;
+    color: #f1f1f1;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px; /* 增加一点设计感 */
+}
+
+/* --- 输入区域 (全新美化) --- */
+#chat-input-container {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
 #chat-input {
-    color: white; /* 输入的文字颜色 */
-    border: 1px solid rgba(255, 255, 255, 0.4); /* 给输入框一个更清晰的边框 */
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.4); /* 核心修复：深色背景 */
+    color: white; /* 核心修复：白色文字 */
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 #chat-input::placeholder {
-    color: rgba(255, 255, 255, 0.6); /* 提示文字 "和 Arelia 说点什么..." 的颜色 */
+    color: rgba(255, 255, 255, 0.5);
 }
 
-/* 2. 确保聊天消息的字体颜色是白色 */
-.message.arelia-message {
-    background-color: #3a3a3b; /* Arelia 消息气泡用深灰色，与背景区分 */
-    color: #f1f1f1; /* Arelia 消息文字颜色 */
+#chat-input:focus {
+    outline: none;
+    border-color: #00aaff; /* 交互反馈：发光边框 */
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.5); /* 交互反馈：发光效果 */
 }
 
-.message.user-message {
-    background-color: #0078d4; /* 用户消息气泡用蓝色，更醒目 */
-    color: white; /* 用户消息文字颜色 */
+#send-button {
+    padding: 12px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: transparent; /* 透明背景 */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }
 
-/* 3. (可选) 给整个聊天窗口加一点点视觉效果，让它更有层次感 */
-#chat-window {
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+#send-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 悬停效果 */
+}
+
+#send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- 美化滚动条 (高级技巧) --- */
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
