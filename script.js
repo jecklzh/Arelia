@@ -1,4 +1,4 @@
-// script.js (Final Version - v1.3)
+// script.js (Final Version)
 
 const videoPlayer = document.getElementById('video-player');
 const helloButton = document.getElementById('hello-button');
@@ -9,8 +9,6 @@ const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const sendButton = document.getElementById('send-button');
 
-// =======================================================================
-// ▼▼▼ 在这里粘贴你的 Cloudflare Worker .dev 链接 ▼▼▼
 // =======================================================================
 const API_ENDPOINT = 'https://arelia-worker.578360521.workers.dev'; // <--- 替换成你的链接
 // =======================================================================
