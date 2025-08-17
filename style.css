@@ -50,12 +50,12 @@ body, html {
 /* --- 交互按钮 --- */
 .interaction-zone {
     position: fixed;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 30px; /* 距离底部的距离 */
+    right: 30px;  /* 距离右侧的距离 */
     z-index: 2;
     display: flex;
-    gap: 15px; /* 桌面端按钮间距 */
+    flex-direction: column; /* 始终保持垂直排列 */
+    gap: 12px;
     pointer-events: auto;
 }
 
@@ -71,7 +71,6 @@ body, html {
     opacity: 0.7;
     transition: all 0.3s ease;
     
-    /* 新增：使用 Flexbox 让内容（图标+文字）垂直居中 */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +81,7 @@ body, html {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-2px); /* 新增：轻微上浮效果 */
+    transform: translateY(-2px); /* 轻微上浮效果 */
 }
 
 
@@ -105,10 +104,37 @@ body, html {
     padding: 55px 20px 20px;
     box-sizing: border-box;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out; 
     pointer-events: auto;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-} /* 错误根源：这里之前多了一个“}”，导致后面的样式都失效了。现已删除。 */
+    overflow: hidden;
+}
+
+/* --- 控制窗口可见性的类 --- */
+#chat-window.visible {
+    opacity: 1;
+}
+
+/* --- 定义聊天窗口的“折叠”状态 --- */
+#chat-window.collapsed {
+    height: 60px;
+    top: 100%;
+    transform: translate(-50%, -80px);
+    opacity: 0.3;
+    backdrop-filter: blur(5px);
+    box-shadow: none;
+}
+
+/* --- 悬浮在折叠窗口上时变清晰 --- */
+#chat-window.collapsed:hover {
+    opacity: 0.9;
+}
+
+/* --- 折叠时隐藏内部元素 --- */
+#chat-window.collapsed #chat-messages,
+#chat-window.collapsed #chat-input-container {
+    display: none;
+}
 
 
 /* --- 关闭按钮 --- */
@@ -138,6 +164,32 @@ body, html {
 #close-chat-button:hover {
     opacity: 1;
     transform: rotate(90deg);
+}
+
+/* --- 折叠按钮 --- */
+#toggle-chat-button {
+    position: absolute;
+    top: 20px;
+    right: 60px; /* 放在关闭按钮的左边 */
+    z-index: 11;
+    background: transparent !important;
+    border: none !important;
+    width: 32px;
+    height: 32px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+#toggle-chat-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 /* --- 消息显示区域 --- */
@@ -238,40 +290,4 @@ body, html {
 
 #chat-messages::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.5);
-}
-
-/* --- 移动端响应式设计 --- */
-@media (max-width: 480px) {
-    .title {
-        font-size: 2.5rem;
-    }
-
-    .interaction-zone {
-        gap: 20px; /* 在移动端，给圆形按钮更宽的间距，显得更大气 */
-        bottom: 9px;
-    }
-
-    .interaction-zone button {
-        /* --- 核心样式：打造大尺寸圆形按钮 --- */
-        width: 51px;        /* 设定一个固定的宽度 */
-        height: 51px;       /* 高度与宽度相同，形成正方形 */
-        border-radius: 50%; /* 关键：将正方形变为完美的圆形 */
-        padding: 0;         /* 清除内边距，以便图标能完全居中 */
-        
-        /* 调整图标大小 */
-        font-size: 1.4rem;  
-    }
-
-    .interaction-zone button:hover {
-        /* 在移动端，触摸反馈更适合放大效果 */
-        transform: scale(1.1);
-    }
-    
-    /* 图标内的 i 标签不需要额外样式，因为它会继承按钮的 color 和 font-size */
-    
-    #chat-window {
-        width: 95%;
-        height: 80%;
-        max-width: none;
-    }
 }

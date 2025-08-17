@@ -1,5 +1,3 @@
-// script.js (Final Version)
-
 const videoPlayer = document.getElementById('video-player');
 const helloButton = document.getElementById('hello-button');
 const chatButton = document.getElementById('chat-button');
@@ -8,6 +6,7 @@ const closeChatButton = document.getElementById('close-chat-button');
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const sendButton = document.getElementById('send-button');
+const toggleChatButton = document.getElementById('toggle-chat-button');
 
 const API_ENDPOINT = 'https://arliaapi.stevel.eu.org'; 
 
@@ -38,7 +37,6 @@ function playRandomVideoFrom(category, loop = true) {
 }
 
 videoPlayer.addEventListener('ended', () => {
-    // 视频播放结束后，如果是短暂的非循环视频，则切换回当前场景下的默认状态
     if (!videoPlayer.loop) {
         playRandomVideoFrom(isChatOpen ? 'listening' : 'idle');
     }
@@ -50,21 +48,25 @@ helloButton.addEventListener('click', () => {
 
 chatButton.addEventListener('click', () => {
     isChatOpen = true;
+    chatWindow.classList.remove('collapsed');
     videoPlayer.style.objectPosition = '80% 50%';
     chatWindow.style.display = 'flex';
-    setTimeout(() => { chatWindow.style.opacity = '1'; }, 10);
+    setTimeout(() => { chatWindow.classList.add('visible'); }, 10);
     playRandomVideoFrom('listening');
+    toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>'; 
+    toggleChatButton.setAttribute('aria-label', '折叠窗口');
 });
 
+// 修正：修复了变量名的拼写错误 (ccloseChatButton -> closeChatButton)
 closeChatButton.addEventListener('click', () => {
     isChatOpen = false;
     videoPlayer.style.objectPosition = '50% 50%';
-    chatWindow.style.opacity = '0';
+    chatWindow.classList.remove('visible');
     setTimeout(() => { chatWindow.style.display = 'none'; }, 500);
     playRandomVideoFrom('idle');
 });
 
-// --- 全新的聊天逻辑 ---
+// --- 聊天逻辑 ---
 
 function addMessage(text, sender) {
     const messageElement = document.createElement('div');
@@ -95,9 +97,6 @@ async function sendMessage() {
         }
 
         const data = await response.json();
-        
-        // 可选：在这里可以播放 "说话中" 的视频
-        // playRandomVideoFrom('speaking', false);
         addMessage(data.reply, 'arelia');
 
     } catch (error) {
@@ -117,6 +116,24 @@ chatInput.addEventListener('keypress', (event) => {
     }
 });
 
+// --- 聊天窗口折叠/展开逻辑 ---
+toggleChatButton.addEventListener('click', () => {
+    const isCollapsed = chatWindow.classList.contains('collapsed');
+
+    if (isCollapsed) {
+        chatWindow.classList.remove('collapsed');
+        videoPlayer.style.objectPosition = '80% 50%';
+        toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+        toggleChatButton.setAttribute('aria-label', '折叠窗口');
+    } else {
+        chatWindow.classList.add('collapsed');
+        videoPlayer.style.objectPosition = '50% 50%';
+        toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+        toggleChatButton.setAttribute('aria-label', '展开窗口');
+    }
+});
+
+// --- 页面加载时播放初始视频 ---
 window.addEventListener('DOMContentLoaded', () => {
     playRandomVideoFrom('idle');
 });

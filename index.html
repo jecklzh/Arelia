@@ -22,12 +22,16 @@
             <i class="fa-solid fa-hand-sparkles"></i>
         </button>
         <button id="chat-button" aria-label="打开聊天">
-            <i class="fa-solid fa-comment"></i>
+            <!-- 修正：使用复数图标 fa-comments，视觉效果更好 -->
+            <i class="fa-solid fa-comments"></i>
         </button>
     </div>
 
     <!-- 全新的聊天窗口 HTML 结构 -->
     <div id="chat-window">
+        <button id="toggle-chat-button" aria-label="折叠窗口">
+            <i class="fa-solid fa-chevron-down"></i>
+        </button>
         <button id="close-chat-button">&times;</button>
         <div id="chat-messages"></div>
         <div id="chat-input-container">
@@ -36,14 +40,6 @@
         </div>
     </div>
 
-    <!-- 确保你的 JS 文件路径正确 -->
     <script src="script.js?v=1.5"></script>
 </body>
 </html>
-
-
-
-
-
-
-
