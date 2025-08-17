@@ -50,7 +50,7 @@ body, html {
 /* --- 交互按钮 --- */
 .interaction-zone {
     position: fixed;
-    bottom: 30px;
+    bottom: 21px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -61,7 +61,7 @@ body, html {
 
 .interaction-zone button {
     padding: 12px 24px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
@@ -248,18 +248,18 @@ body, html {
 
     .interaction-zone {
         gap: 20px; /* 在移动端，给圆形按钮更宽的间距，显得更大气 */
-        bottom: 30px;
+        bottom: 15px;
     }
 
     .interaction-zone button {
         /* --- 核心样式：打造大尺寸圆形按钮 --- */
-        width: 45px;        /* 设定一个固定的宽度 */
-        height: 45px;       /* 高度与宽度相同，形成正方形 */
+        width: 54px;        /* 设定一个固定的宽度 */
+        height: 54px;       /* 高度与宽度相同，形成正方形 */
         border-radius: 50%; /* 关键：将正方形变为完美的圆形 */
         padding: 0;         /* 清除内边距，以便图标能完全居中 */
         
         /* 调整图标大小 */
-        font-size: 1.2rem;  
+        font-size: 1.5rem;  
     }
 
     .interaction-zone button:hover {
