@@ -83,9 +83,6 @@ async function sendMessage() {
     sendButton.disabled = true;
     chatInput.disabled = true;
 
-    // 可选：在这里可以播放 "思考中" 的视频
-    // playRandomVideoFrom('thinking', true); 
-
     try {
         const response = await fetch(API_ENDPOINT, {
             method: 'POST',
@@ -105,7 +102,7 @@ async function sendMessage() {
 
     } catch (error) {
         console.error('Error fetching chat response:', error);
-        addMessage('嗯？... 她好像不在...', 'arelia');
+        addMessage('（嗯？... 她好像不在...）', 'user');
     } finally {
         sendButton.disabled = false;
         chatInput.disabled = false;
