@@ -9,7 +9,7 @@ const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const sendButton = document.getElementById('send-button');
 
-const API_ENDPOINT = 'https://arelia-worker.578360521.workers.dev'; 
+const API_ENDPOINT = 'https://arliaapi.stevel.eu.org'; 
 
 const videoLibrary = {
     hello: ['videos/greeting.mp4'],
