@@ -107,17 +107,22 @@ body, html {
 
 #close-chat-button {
     position: absolute;
-    /* 核心修改：微调按钮位置，使其在新的顶部空间内更协调 */
     top: 20px;
     right: 20px;
     background: none;
     border: none;
     color: white;
-    font-size: 1.8rem;
+    font-size: 2rem; /* 稍微再放大一点，让它更清晰 */
     cursor: pointer;
     opacity: 0.6;
     z-index: 11;
     transition: opacity 0.3s, transform 0.3s;
+    
+    /* --- 核心修复：恢复按钮的美貌 --- */
+    padding: 0; /* 移除按钮的默认内边距 */
+    line-height: 1; /* 确保符号在自己的空间里垂直居中 */
+    font-family: Arial, sans-serif; /* 强制使用最通用的、能把"×"画好看的字体 */
+    font-weight: normal; /* 使用正常的字重，避免过粗 */
 }
 
 #close-chat-button:hover {
