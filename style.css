@@ -55,7 +55,7 @@ body, html {
     transform: translateX(-50%);
     z-index: 2;
     display: flex;
-    gap: 15px;
+    gap: 15px; /* 桌面端按钮间距 */
     pointer-events: auto;
 }
 
@@ -70,12 +70,19 @@ body, html {
     backdrop-filter: blur(5px);
     opacity: 0.7;
     transition: all 0.3s ease;
+    
+    /* 新增：使用 Flexbox 让内容（图标+文字）垂直居中 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* 图标和文字的间距 */
 }
 
 .interaction-zone button:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px); /* 新增：轻微上浮效果 */
 }
 
 
@@ -236,25 +243,33 @@ body, html {
 /* --- 移动端响应式设计 --- */
 @media (max-width: 480px) {
     .title {
-        font-size: 2.5rem; /* 在小屏幕上稍微缩小标题 */
+        font-size: 2.5rem;
     }
 
     .interaction-zone {
-        /* 在小屏幕上，让按钮上下排列，而不是左右 */
-        flex-direction: column;
-        gap: 10px; /* 调整垂直间距 */
-        bottom: 30px; /* 调整距离底部的距离 */
+        gap: 20px; /* 在移动端，给圆形按钮更宽的间距，显得更大气 */
+        bottom: 30px;
     }
 
     .interaction-zone button {
-        /* 让按钮宽度适应容器，并设置一个合理的最小宽度 */
-        width: 180px; 
-        text-align: center; /* 确保文本居中 */
-        padding: 14px 20px; /* 可以适当调整内边距 */
+        /* --- 核心样式：打造大尺寸圆形按钮 --- */
+        width: 56px;        /* 设定一个固定的宽度 */
+        height: 56px;       /* 高度与宽度相同，形成正方形 */
+        border-radius: 50%; /* 关键：将正方形变为完美的圆形 */
+        padding: 0;         /* 清除内边距，以便图标能完全居中 */
+        
+        /* 调整图标大小 */
+        font-size: 1.5rem;  /* 约 24px，让图标在圆内显得饱满 */
     }
 
+    .interaction-zone button:hover {
+        /* 在移动端，触摸反馈更适合放大效果 */
+        transform: scale(1.1);
+    }
+    
+    /* 图标内的 i 标签不需要额外样式，因为它会继承按钮的 color 和 font-size */
+    
     #chat-window {
-        /* 在手机上让聊天窗口占据更多空间 */
         width: 95%;
         height: 80%;
         max-width: none;
