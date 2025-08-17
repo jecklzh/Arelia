@@ -74,8 +74,8 @@ body, html {
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     backdrop-filter: blur(5px);
-    /* 修改：降低默认不透明度，让按钮更融入背景 */
-    opacity: 0.5; 
+    /* 修改：进一步降低不透明度，达到极致的沉浸感 */
+    opacity: 0.4; 
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
@@ -106,7 +106,6 @@ body, html {
     z-index: 10;
     display: none;
     flex-direction: column;
-    /* 修改：将左右内边距加回父容器，实现更稳定的布局 */
     padding: 55px 20px 20px;
     box-sizing: border-box;
     opacity: 0;
@@ -154,7 +153,6 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    /* 修改：为滚动条留出空间，防止文字紧贴 */
     padding-right: 10px;
 }
 
@@ -165,10 +163,10 @@ body, html {
 /* --- 输入区域 --- */
 #chat-input-container {
     display: flex;
-    gap: 10px;
+    /* 修改：微调间距，增加和谐感 */
+    gap: 8px; 
     flex-shrink: 0;
     align-items: center;
-    /* 修改：移除此处的 padding */
 }
 
 #chat-input {
@@ -180,6 +178,8 @@ body, html {
     color: white;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
+    /* 新增：确保输入框在Flexbox中可以被正确压缩 */
+    min-width: 0;
 }
 
 #chat-input::placeholder { color: rgba(255, 255, 255, 0.5); }
@@ -187,8 +187,9 @@ body, html {
 
 #send-button {
     flex-shrink: 0;
-    width: 46px;
-    height: 46px;
+    /* 修改：微调尺寸，增加空间感 */
+    width: 44px;
+    height: 44px;
     padding: 0;
     font-size: 1.2rem;
     cursor: pointer;
