@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
-    <link rel="stylesheet" href="style.css?v=1.6">
+    <link rel="stylesheet" href="style.css?v=1.7">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css?v=1">
 </head>
 <body>
@@ -17,7 +17,6 @@
         <h1 class="title">Arelia</h1>
     </div>
     
-    <!-- 注意：这里用 querySelector 获取，所以 class 名称很重要 -->
     <div class="interaction-zone">
         <button id="hello-button" aria-label="Hi! Arelia">
             <i class="fa-solid fa-hand-sparkles"></i>
@@ -36,13 +35,13 @@
         <div id="chat-messages"></div>
         <div id="chat-input-container">
             <input type="text" id="chat-input" placeholder="和 Arelia 说点什么...">
-            <!-- 修改：发送按钮改为纸飞机图标 -->
             <button id="send-button" aria-label="发送">
-                <i class="fa-solid fa-paper-plane"></i>
+                <!-- 修改：更换为空心线框图标，增加轻盈感 -->
+                <i class="fa-regular fa-paper-plane"></i>
             </button>
         </div>
     </div>
 
-    <script src="script.js?v=1.6"></script>
+    <script src="script.js?v=1.7"></script>
 </body>
 </html>
