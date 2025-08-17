@@ -73,7 +73,7 @@ function addMessage(text, sender) {
     messageElement.classList.add('message', `${sender}-message`);
     messageElement.textContent = text;
     chatMessages.appendChild(messageElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight; // 自动滚动到底部
+    chatMessages.scrollTop = chatMessages.scrollHeight; 
 }
 
 async function sendMessage() {
@@ -107,11 +107,11 @@ async function sendMessage() {
 
     } catch (error) {
         console.error('Error fetching chat response:', error);
-        addMessage('抱歉，我好像遇到了一点问题...', 'arelia');
+        addMessage('嗯？... 她好像不在...', 'arelia');
     } finally {
         sendButton.disabled = false;
         chatInput.disabled = false;
-        chatInput.focus(); // 让用户可以继续输入
+        chatInput.focus(); 
     }
 }
 
