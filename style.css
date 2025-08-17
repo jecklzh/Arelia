@@ -51,17 +51,15 @@ body, html {
 .interaction-zone {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    right: 9px; /* 修改：按照你的要求，更靠近右边缘 */
     z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 12px;
     pointer-events: auto;
-    /* 新增：为隐藏/显示添加过渡效果 */
     transition: opacity 0.4s ease;
 }
 
-/* 新增：用于在聊天模式下隐藏主按钮 */
 .interaction-zone.hidden {
     opacity: 0;
     pointer-events: none;
@@ -107,7 +105,8 @@ body, html {
     z-index: 10;
     display: none;
     flex-direction: column;
-    padding: 55px 20px 20px;
+    /* 修改：移除左右内边距，交由子元素控制 */
+    padding: 55px 0 20px; 
     box-sizing: border-box;
     opacity: 0;
     transition: all 0.5s ease-in-out; 
@@ -116,27 +115,11 @@ body, html {
     overflow: hidden;
 }
 
-#chat-window.visible {
-    opacity: 1;
-}
-
-#chat-window.collapsed {
-    height: 60px;
-    top: 100%;
-    transform: translate(-50%, -80px);
-    opacity: 0.3;
-    backdrop-filter: blur(5px);
-    box-shadow: none;
-}
-
-#chat-window.collapsed:hover {
-    opacity: 0.9;
-}
-
+#chat-window.visible { opacity: 1; }
+#chat-window.collapsed { height: 60px; top: 100%; transform: translate(-50%, -80px); opacity: 0.3; backdrop-filter: blur(5px); box-shadow: none; }
+#chat-window.collapsed:hover { opacity: 0.9; }
 #chat-window.collapsed #chat-messages,
-#chat-window.collapsed #chat-input-container {
-    display: none;
-}
+#chat-window.collapsed #chat-input-container { display: none; }
 
 /* --- 关闭与折叠按钮 --- */
 #close-chat-button, #toggle-chat-button {
@@ -156,29 +139,10 @@ body, html {
     padding: 0;
     transition: opacity 0.3s, transform 0.3s;
 }
-
-#close-chat-button {
-    right: 20px;
-    font-family: Arial, sans-serif;
-    font-size: 2rem;
-    font-weight: normal;
-    line-height: 1;
-}
-
-#toggle-chat-button {
-    right: 60px;
-    font-size: 1.2rem;
-}
-
-#close-chat-button:hover {
-    opacity: 1;
-    transform: rotate(90deg);
-}
-
-#toggle-chat-button:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
+#close-chat-button { right: 20px; font-family: Arial, sans-serif; font-size: 2rem; font-weight: normal; line-height: 1; }
+#toggle-chat-button { right: 60px; font-size: 1.2rem; }
+#close-chat-button:hover { opacity: 1; transform: rotate(90deg); }
+#toggle-chat-button:hover { opacity: 1; transform: scale(1.1); }
 
 /* --- 消息显示区域 --- */
 #chat-messages {
@@ -189,7 +153,8 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-right: 10px;
+    /* 修改：在这里控制左右内边距，确保内容不贴边 */
+    padding: 0 20px; 
 }
 
 /* (消息样式 .message, .user-message, .arelia-message 省略，与之前相同) */
@@ -202,6 +167,9 @@ body, html {
     display: flex;
     gap: 10px;
     flex-shrink: 0;
+    align-items: center; /* 确保输入框和按钮垂直居中对齐 */
+    /* 修改：在这里控制左右内边距，确保输入框和按钮不贴边 */
+    padding: 0 20px;
 }
 
 #chat-input {
@@ -219,25 +187,25 @@ body, html {
 #chat-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 8px rgba(0, 170, 255, 0.5); }
 
 #send-button {
-    /* 修改：为图标按钮优化样式 */
-    flex-shrink: 0; /* 防止按钮被压缩 */
-    width: 46px;    /* 固定宽度 */
-    height: 46px;   /* 固定高度 */
-    padding: 0;     /* 移除内边距 */
-    font-size: 1.2rem; /* 调整图标大小 */
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    font-size: 1.2rem;
     cursor: pointer;
     background-color: transparent;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* 修改：移除边框，增加轻盈感 */
+    border: none; 
     border-radius: 8px;
-    transition: background-color 0.3s;
-    /* 新增：确保图标居中 */
+    transition: background-color 0.3s, transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #send-button:hover { background-color: rgba(255, 255, 255, 0.2); }
+#send-button:active { transform: scale(0.9); } /* 新增：点击时有按压反馈 */
 #send-button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* --- 美化滚动条 --- */
