@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
-    <link rel="stylesheet" href="style.css?v=1.8">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 <body>
 
@@ -17,8 +17,12 @@
     </div>
     
     <div class="interaction-zone">
-        <button id="hello-button">Hello Arelia</button>
-        <button id="chat-button">打开聊天</button>
+        <button id="hello-button" aria-label="Hi! Arelia">
+            <i class="fa-solid fa-hand-sparkles"></i>
+        </button>
+        <button id="chat-button" aria-label="打开聊天">
+            <i class="fa-solid fa-comments"></i>
+        </button>
     </div>
 
     <!-- 全新的聊天窗口 HTML 结构 -->
@@ -32,8 +36,9 @@
     </div>
 
     <!-- 确保你的 JS 文件路径正确 -->
-    <script src="script.js?v=1.8"></script>
+    <script src="script.js?v=1.1"></script>
 </body>
 </html>
+
 
 
