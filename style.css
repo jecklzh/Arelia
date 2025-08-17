@@ -79,7 +79,7 @@ body, html {
 }
 
 
-/* --- 聊天窗口 (全新美化) --- */
+/* --- 聊天窗口 --- */
 #chat-window {
     position: fixed;
     top: 50%;
@@ -95,40 +95,34 @@ body, html {
     z-index: 10;
     display: none;
     flex-direction: column;
-    /* 核心修改：将顶部内边距从 20px 增加到 55px，为关闭按钮创建专属空间 */
     padding: 55px 20px 20px;
     box-sizing: border-box;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     pointer-events: auto;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-}
-}
+} /* 错误根源：这里之前多了一个“}”，导致后面的样式都失效了。现已删除。 */
 
+
+/* --- 关闭按钮 --- */
 #close-chat-button {
     position: absolute;
     top: 20px;
     right: 20px;
     z-index: 11;
-    
-    /* --- 核心修复：强制透明背景与尺寸 --- */
-    background: transparent !important; /* 使用 !important 强制覆盖所有默认样式，确保背景透明 */
-    border: none !important; /* 强制移除所有默认边框 */
-    width: 32px;  /* 给予一个固定的宽度 */
-    height: 32px; /* 给予一个固定的高度，形成一个方形的可点击区域 */
-    
-    /* --- 符号样式与定位 --- */
+    background: transparent !important;
+    border: none !important;
+    width: 32px;
+    height: 32px;
     color: white;
     font-family: Arial, sans-serif;
     font-size: 2rem;
     font-weight: normal;
     cursor: pointer;
     opacity: 0.6;
-    
-    /* --- 精准居中与过渡动画 --- */
-    display: flex; /* 使用 Flexbox 来轻松实现居中 */
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0;
     line-height: 1;
     transition: opacity 0.3s, transform 0.3s;
@@ -139,7 +133,7 @@ body, html {
     transform: rotate(90deg);
 }
 
-/* --- 消息显示区域 (全新美化) --- */
+/* --- 消息显示区域 --- */
 #chat-messages {
     flex-grow: 1;
     overflow-y: auto;
@@ -148,14 +142,14 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-right: 10px; /* 为美化后的滚动条留出空间 */
+    padding-right: 10px;
 }
 
 .message {
     padding: 10px 15px;
     border-radius: 18px;
-    max-width: 85%; /* 消息气泡不会过长 */
-    word-wrap: break-word; /* 文本自动换行 */
+    max-width: 85%;
+    word-wrap: break-word;
     line-height: 1.5;
 }
 
@@ -163,17 +157,17 @@ body, html {
     background-color: #0078d4;
     color: white;
     align-self: flex-end;
-    border-bottom-right-radius: 4px; /* 增加一点设计感 */
+    border-bottom-right-radius: 4px;
 }
 
 .arelia-message {
     background-color: #3a3a3b;
     color: #f1f1f1;
     align-self: flex-start;
-    border-bottom-left-radius: 4px; /* 增加一点设计感 */
+    border-bottom-left-radius: 4px;
 }
 
-/* --- 输入区域 (全新美化) --- */
+/* --- 输入区域 --- */
 #chat-input-container {
     display: flex;
     gap: 10px;
@@ -185,8 +179,8 @@ body, html {
     padding: 12px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.4); /* 核心修复：深色背景 */
-    color: white; /* 核心修复：白色文字 */
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -197,15 +191,15 @@ body, html {
 
 #chat-input:focus {
     outline: none;
-    border-color: #00aaff; /* 交互反馈：发光边框 */
-    box-shadow: 0 0 8px rgba(0, 170, 255, 0.5); /* 交互反馈：发光效果 */
+    border-color: #00aaff;
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
 }
 
 #send-button {
     padding: 12px 18px;
     font-size: 1rem;
     cursor: pointer;
-    background-color: transparent; /* 透明背景 */
+    background-color: transparent;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 8px;
@@ -213,7 +207,7 @@ body, html {
 }
 
 #send-button:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* 悬停效果 */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #send-button:disabled {
@@ -221,7 +215,7 @@ body, html {
     cursor: not-allowed;
 }
 
-/* --- 美化滚动条 (高级技巧) --- */
+/* --- 美化滚动条 --- */
 #chat-messages::-webkit-scrollbar {
     width: 6px;
 }
