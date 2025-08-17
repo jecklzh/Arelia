@@ -61,3 +61,31 @@ gradio-app {
     height: 100%;
     background: transparent;
 }
+
+/* --- 聊天窗口美化补丁 --- */
+
+/* 1. 让聊天输入框的文字和占位符变成白色/浅灰色 */
+#chat-input {
+    color: white; /* 输入的文字颜色 */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* 给输入框一个更清晰的边框 */
+}
+
+#chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* 提示文字 "和 Arelia 说点什么..." 的颜色 */
+}
+
+/* 2. 确保聊天消息的字体颜色是白色 */
+.message.arelia-message {
+    background-color: #3a3a3b; /* Arelia 消息气泡用深灰色，与背景区分 */
+    color: #f1f1f1; /* Arelia 消息文字颜色 */
+}
+
+.message.user-message {
+    background-color: #0078d4; /* 用户消息气泡用蓝色，更醒目 */
+    color: white; /* 用户消息文字颜色 */
+}
+
+/* 3. (可选) 给整个聊天窗口加一点点视觉效果，让它更有层次感 */
+#chat-window {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
