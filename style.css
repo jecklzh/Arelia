@@ -75,7 +75,7 @@ body, html {
     border-radius: 8px;
     backdrop-filter: blur(5px);
     /* 修改：进一步降低不透明度，达到极致的沉浸感 */
-    opacity: 0.4; 
+    opacity: 0.36; 
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
