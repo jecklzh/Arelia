@@ -232,3 +232,31 @@ body, html {
 #chat-messages::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
+
+/* --- 移动端响应式设计 --- */
+@media (max-width: 480px) {
+    .title {
+        font-size: 2.5rem; /* 在小屏幕上稍微缩小标题 */
+    }
+
+    .interaction-zone {
+        /* 在小屏幕上，让按钮上下排列，而不是左右 */
+        flex-direction: column;
+        gap: 10px; /* 调整垂直间距 */
+        bottom: 30px; /* 调整距离底部的距离 */
+    }
+
+    .interaction-zone button {
+        /* 让按钮宽度适应容器，并设置一个合理的最小宽度 */
+        width: 180px; 
+        text-align: center; /* 确保文本居中 */
+        padding: 14px 20px; /* 可以适当调整内边距 */
+    }
+
+    #chat-window {
+        /* 在手机上让聊天窗口占据更多空间 */
+        width: 95%;
+        height: 80%;
+        max-width: none;
+    }
+}
