@@ -50,13 +50,21 @@ body, html {
 /* --- 交互按钮 --- */
 .interaction-zone {
     position: fixed;
-    bottom: 30px; /* 距离底部的距离 */
-    right: 30px;  /* 距离右侧的距离 */
+    bottom: 30px;
+    right: 30px;
     z-index: 2;
     display: flex;
-    flex-direction: column; /* 始终保持垂直排列 */
+    flex-direction: column;
     gap: 12px;
     pointer-events: auto;
+    /* 新增：为隐藏/显示添加过渡效果 */
+    transition: opacity 0.4s ease;
+}
+
+/* 新增：用于在聊天模式下隐藏主按钮 */
+.interaction-zone.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .interaction-zone button {
@@ -70,20 +78,18 @@ body, html {
     backdrop-filter: blur(5px);
     opacity: 0.7;
     transition: all 0.3s ease;
-    
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* 图标和文字的间距 */
+    gap: 8px;
 }
 
 .interaction-zone button:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-2px); /* 轻微上浮效果 */
+    transform: translateY(-2px);
 }
-
 
 /* --- 聊天窗口 --- */
 #chat-window {
@@ -110,12 +116,10 @@ body, html {
     overflow: hidden;
 }
 
-/* --- 控制窗口可见性的类 --- */
 #chat-window.visible {
     opacity: 1;
 }
 
-/* --- 定义聊天窗口的“折叠”状态 --- */
 #chat-window.collapsed {
     height: 60px;
     top: 100%;
@@ -125,66 +129,50 @@ body, html {
     box-shadow: none;
 }
 
-/* --- 悬浮在折叠窗口上时变清晰 --- */
 #chat-window.collapsed:hover {
     opacity: 0.9;
 }
 
-/* --- 折叠时隐藏内部元素 --- */
 #chat-window.collapsed #chat-messages,
 #chat-window.collapsed #chat-input-container {
     display: none;
 }
 
-
-/* --- 关闭按钮 --- */
-#close-chat-button {
+/* --- 关闭与折叠按钮 --- */
+#close-chat-button, #toggle-chat-button {
     position: absolute;
     top: 20px;
-    right: 20px;
     z-index: 11;
     background: transparent !important;
     border: none !important;
     width: 32px;
     height: 32px;
     color: white;
-    font-family: Arial, sans-serif;
-    font-size: 2rem;
-    font-weight: normal;
     cursor: pointer;
     opacity: 0.6;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
-    line-height: 1;
     transition: opacity 0.3s, transform 0.3s;
+}
+
+#close-chat-button {
+    right: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: normal;
+    line-height: 1;
+}
+
+#toggle-chat-button {
+    right: 60px;
+    font-size: 1.2rem;
 }
 
 #close-chat-button:hover {
     opacity: 1;
     transform: rotate(90deg);
-}
-
-/* --- 折叠按钮 --- */
-#toggle-chat-button {
-    position: absolute;
-    top: 20px;
-    right: 60px; /* 放在关闭按钮的左边 */
-    z-index: 11;
-    background: transparent !important;
-    border: none !important;
-    width: 32px;
-    height: 32px;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    opacity: 0.6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    transition: opacity 0.3s, transform 0.3s;
 }
 
 #toggle-chat-button:hover {
@@ -204,27 +192,10 @@ body, html {
     padding-right: 10px;
 }
 
-.message {
-    padding: 10px 15px;
-    border-radius: 18px;
-    max-width: 85%;
-    word-wrap: break-word;
-    line-height: 1.5;
-}
-
-.user-message {
-    background-color: #0078d4;
-    color: white;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-}
-
-.arelia-message {
-    background-color: #3a3a3b;
-    color: #f1f1f1;
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-}
+/* (消息样式 .message, .user-message, .arelia-message 省略，与之前相同) */
+.message { padding: 10px 15px; border-radius: 18px; max-width: 85%; word-wrap: break-word; line-height: 1.5; }
+.user-message { background-color: #0078d4; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.arelia-message { background-color: #3a3a3b; color: #f1f1f1; align-self: flex-start; border-bottom-left-radius: 4px; }
 
 /* --- 输入区域 --- */
 #chat-input-container {
@@ -244,50 +215,33 @@ body, html {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-#chat-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-#chat-input:focus {
-    outline: none;
-    border-color: #00aaff;
-    box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
-}
+#chat-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+#chat-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 8px rgba(0, 170, 255, 0.5); }
 
 #send-button {
-    padding: 12px 18px;
-    font-size: 1rem;
+    /* 修改：为图标按钮优化样式 */
+    flex-shrink: 0; /* 防止按钮被压缩 */
+    width: 46px;    /* 固定宽度 */
+    height: 46px;   /* 固定高度 */
+    padding: 0;     /* 移除内边距 */
+    font-size: 1.2rem; /* 调整图标大小 */
     cursor: pointer;
     background-color: transparent;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     transition: background-color 0.3s;
+    /* 新增：确保图标居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#send-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-#send-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+#send-button:hover { background-color: rgba(255, 255, 255, 0.2); }
+#send-button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* --- 美化滚动条 --- */
-#chat-messages::-webkit-scrollbar {
-    width: 6px;
-}
-
-#chat-messages::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#chat-messages::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-#chat-messages::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
+#chat-messages::-webkit-scrollbar { width: 6px; }
+#chat-messages::-webkit-scrollbar-track { background: transparent; }
+#chat-messages::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.3); border-radius: 3px; }
+#chat-messages::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 0.5); }
