@@ -51,7 +51,7 @@ body, html {
 .interaction-zone {
     position: fixed;
     bottom: 30px;
-    right: 9px; /* 修改：按照你的要求，更靠近右边缘 */
+    right: 9px;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -74,7 +74,8 @@ body, html {
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     backdrop-filter: blur(5px);
-    opacity: 0.7;
+    /* 修改：降低默认不透明度，让按钮更融入背景 */
+    opacity: 0.5; 
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
@@ -105,8 +106,8 @@ body, html {
     z-index: 10;
     display: none;
     flex-direction: column;
-    /* 修改：移除左右内边距，交由子元素控制 */
-    padding: 55px 0 20px; 
+    /* 修改：将左右内边距加回父容器，实现更稳定的布局 */
+    padding: 55px 20px 20px;
     box-sizing: border-box;
     opacity: 0;
     transition: all 0.5s ease-in-out; 
@@ -153,11 +154,10 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    /* 修改：在这里控制左右内边距，确保内容不贴边 */
-    padding: 0 20px; 
+    /* 修改：为滚动条留出空间，防止文字紧贴 */
+    padding-right: 10px;
 }
 
-/* (消息样式 .message, .user-message, .arelia-message 省略，与之前相同) */
 .message { padding: 10px 15px; border-radius: 18px; max-width: 85%; word-wrap: break-word; line-height: 1.5; }
 .user-message { background-color: #0078d4; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 .arelia-message { background-color: #3a3a3b; color: #f1f1f1; align-self: flex-start; border-bottom-left-radius: 4px; }
@@ -167,9 +167,8 @@ body, html {
     display: flex;
     gap: 10px;
     flex-shrink: 0;
-    align-items: center; /* 确保输入框和按钮垂直居中对齐 */
-    /* 修改：在这里控制左右内边距，确保输入框和按钮不贴边 */
-    padding: 0 20px;
+    align-items: center;
+    /* 修改：移除此处的 padding */
 }
 
 #chat-input {
@@ -195,17 +194,15 @@ body, html {
     cursor: pointer;
     background-color: transparent;
     color: white;
-    /* 修改：移除边框，增加轻盈感 */
-    border: none; 
+    border: none;
     border-radius: 8px;
     transition: background-color 0.3s, transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 #send-button:hover { background-color: rgba(255, 255, 255, 0.2); }
-#send-button:active { transform: scale(0.9); } /* 新增：点击时有按压反馈 */
+#send-button:active { transform: scale(0.9); }
 #send-button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* --- 美化滚动条 --- */
