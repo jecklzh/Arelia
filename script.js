@@ -17,7 +17,7 @@ const API_ENDPOINT = 'https://arliaapi.stevel.eu.org';
 const videoLibrary = {
     hello: ['videos/greeting_smile.mp4','videos/greeting_v.mp4'],
     idle: ['videos/idle.mp4'],
-    listening: ['videos/1.mp4'],
+    listening: ['videos/listening.mp4'],
 };
 let isChatOpen = false;
 let conversationHistory = [];
