@@ -15,7 +15,7 @@ const sendButton = document.getElementById('send-button');
 // --- Configuration & State ---
 const API_ENDPOINT = 'https://arliaapi.stevel.eu.org'; 
 const videoLibrary = {
-    hello: ['videos/greeting.mp4'],
+    hello: ['videos/greeting_smile.mp4','videos/greeting_v.mp4'],
     idle: ['videos/idle.mp4'],
     listening: ['videos/1.mp4'],
 };
