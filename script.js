@@ -68,10 +68,20 @@ async function sendMessage() {
     areliaMessageElement.innerHTML = '<span class="blinking-cursor"></span>'; // 添加一个闪烁的光标效果
 
     try {
+        const currentTimeString = new Date().toLocaleString('zh-CN', { 
+            weekday: 'long', 
+            hour: 'numeric', 
+            minute: 'numeric', 
+            hour12: false 
+        });
+        
         const response = await fetch(API_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ history: conversationHistory }),
+            body: JSON.stringify({ 
+                history: conversationHistory,
+                currentTime: currentTimeString 
+            }),
         });
 
         if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
