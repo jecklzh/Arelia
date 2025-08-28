@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arelia</title>
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=2.7">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css?v=1">
 </head>
 <body>
@@ -34,17 +34,21 @@
         <button id="close-chat-button">&times;</button>
         <div id="chat-messages"></div>
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="和 Arelia 说点什么...">
-            <button id="send-button" aria-label="发送">
-                <!-- 修改：更换为空心线框图标，增加轻盈感 -->
-                <i class="fa-regular fa-paper-plane"></i>
+            <div id="mic-cancel-hint" class="hidden">
+                <i class="fa-solid fa-trash-can"></i> 松开手指，取消发送
+            </div>
+            <input type="text" id="chat-input" placeholder="按住说话..."> <button id="mic-button" aria-label="按住说话"> <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button id="send-button" aria-label="发送消息">
+                <i class="fa-solid fa-paper-plane"></i>
             </button>
         </div>
     </div>
 
-    <script src="script.js?v=2.4"></script>
+    <script src="script.js?v=2.7"></script>
 </body>
 </html>
+
 
 
 
