@@ -1,4 +1,4 @@
-// script.js (Version 6.0 - Stable Voice Input)
+// script.js (Version 6.1 - Restored Button Functionality)
 
 // --- DOM Element Selection ---
 const videoPlayer = document.getElementById('video-player');
@@ -11,7 +11,6 @@ const toggleChatButton = document.getElementById('toggle-chat-button');
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const sendButton = document.getElementById('send-button');
-// --- 新增: 麦克风按钮 ---
 const micButton = document.getElementById('mic-button');
 
 // --- Configuration & State ---
@@ -24,12 +23,11 @@ const videoLibrary = {
 let isChatOpen = false;
 let conversationHistory = [];
 
-// --- 新增: 语音识别相关状态 ---
+// --- 语音识别相关状态 ---
 let recognition = null;
 let isListening = false;
-// --- 新增结束 ---
 
-// --- Core Functions (playRandomVideoFrom, addMessageToUI, sendMessage 保持不变) ---
+// --- Core Functions ---
 function playRandomVideoFrom(category, loop = true) {
     const videos = videoLibrary[category];
     if (!videos || videos.length === 0) return;
@@ -112,25 +110,23 @@ async function sendMessage() {
     }
 }
 
-// --- !! 新增: 语音识别核心功能 !! ---
+// --- 语音识别核心功能 ---
 function setupSpeechRecognition() {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!window.SpeechRecognition) {
-        micButton.style.display = 'none'; // 如果浏览器不支持，就隐藏按钮
+    if (!micButton || !window.SpeechRecognition) {
+        if(micButton) micButton.style.display = 'none';
         return;
     }
     recognition = new SpeechRecognition();
-    recognition.lang = 'zh-CN'; // 设置语言为中文
-    recognition.interimResults = true; // 实时返回中间结果
-    recognition.continuous = false; // 只识别一句
+    recognition.lang = 'zh-CN';
+    recognition.interimResults = true;
+    recognition.continuous = false;
 
-    // --- 关键: 为 "Arelia" 添加关键词增强 ---
     const speechRecognitionList = new (window.SpeechGrammarList || window.webkitSpeechGrammarList)();
-    const grammar = '#JSGF V1.0; grammar names; public <name> = Arelia ;'; // 只放最关键的词
+    const grammar = '#JSGF V1.0; grammar names; public <name> = Arelia ;';
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
 
-    // 监听识别结果
     recognition.onresult = (event) => {
         const transcript = Array.from(event.results)
             .map(result => result[0])
@@ -139,15 +135,13 @@ function setupSpeechRecognition() {
         chatInput.value = transcript;
     };
 
-    // 监听结束事件
     recognition.onend = () => {
-        stopListening();
+        if (isListening) stopListening();
     };
     
-    // 监听错误事件
     recognition.onerror = (event) => {
         console.error('语音识别错误:', event.error);
-        stopListening();
+        if (isListening) stopListening();
     };
 }
 
@@ -166,21 +160,56 @@ function stopListening() {
     chatInput.placeholder = '和 Arelia 说点什么...';
     recognition.stop();
 }
-// --- !! 新增功能区结束 !! ---
 
+// --- Event Listeners ---
 
-// --- Event Listeners (部分修改和新增) ---
-// ... (大部分保持不变)
-closeChatButton.addEventListener('click', () => {
-    if (isListening) stopListening(); // 关闭窗口时停止监听
-    isChatOpen = false;
-    // ... (其余代码不变)
+// --- !! 修正: 将这两个按钮的事件监听加回来 !! ---
+helloButton.addEventListener('click', () => {
+    playRandomVideoFrom('hello', false);
 });
-// ...
+
+chatButton.addEventListener('click', () => {
+    isChatOpen = true;
+    interactionZone.classList.add('hidden');
+    chatWindow.classList.remove('collapsed');
+    videoPlayer.style.objectPosition = '80% 50%';
+    chatWindow.style.display = 'flex';
+    setTimeout(() => chatWindow.classList.add('visible'), 10);
+    playRandomVideoFrom('listening');
+    toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>'; 
+    toggleChatButton.setAttribute('aria-label', '折叠窗口');
+});
+// --- 修正结束 ---
+
+videoPlayer.addEventListener('ended', () => { if (!videoPlayer.loop) { playRandomVideoFrom(isChatOpen ? 'listening' : 'idle'); } });
+
+closeChatButton.addEventListener('click', () => {
+    if (isListening) stopListening();
+    isChatOpen = false;
+    interactionZone.classList.remove('hidden');
+    videoPlayer.style.objectPosition = '50% 50%';
+    chatWindow.classList.remove('visible');
+    setTimeout(() => { chatWindow.style.display = 'none'; }, 500);
+    playRandomVideoFrom('idle');
+    conversationHistory = [];
+});
+
+toggleChatButton.addEventListener('click', () => {
+    const isCollapsed = chatWindow.classList.toggle('collapsed');
+    if (isCollapsed) {
+        videoPlayer.style.objectPosition = '50% 50%';
+        toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+        toggleChatButton.setAttribute('aria-label', '展开窗口');
+    } else {
+        videoPlayer.style.objectPosition = '80% 50%';
+        toggleChatButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+        toggleChatButton.setAttribute('aria-label', '折叠窗口');
+    }
+});
+
 sendButton.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { sendMessage(); } });
 
-// --- 新增: 麦克风按钮的“开关”点击事件 ---
 micButton.addEventListener('click', () => {
     if (isListening) {
         stopListening();
@@ -188,9 +217,8 @@ micButton.addEventListener('click', () => {
         startListening();
     }
 });
-// --- 新增结束 ---
 
 window.addEventListener('DOMContentLoaded', () => {
     playRandomVideoFrom('idle');
-    setupSpeechRecognition(); // 页面加载时初始化语音识别
+    setupSpeechRecognition();
 });
